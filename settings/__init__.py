@@ -1,2 +1,4 @@
 from .init_settings import init_settings
-from .settings import Settings
+
+# Initialize settings
+settings = init_settings()
