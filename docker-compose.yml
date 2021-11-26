@@ -1,0 +1,13 @@
+# Тестовая mongodb база
+version: "3.3"
+
+volumes:
+    test_mongo_data:
+
+services: 
+    rabbitmq:
+        image: mongo
+        ports: 
+            - 27017:27017
+        volumes:
+            - test_mongo_data:/data/db
