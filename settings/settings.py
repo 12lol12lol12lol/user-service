@@ -13,6 +13,7 @@ class Settings(BaseModel):
     MONGODB_URL: str
     SECRET_KEY: str
     TOKEN_EXPIRED: int # token expired time in minutes
+    ALGORITHM: str = "HS256"
 
     @root_validator
     def validate(cls, values):
