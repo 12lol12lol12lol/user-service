@@ -3,8 +3,11 @@ Route definitions
 """
 from db import db
 from fastapi import APIRouter, HTTPException
-from models.user import UserModel, UserSignUpModel
-from services.user import SignUpUserService, UserServiceException
+from fastapi.param_functions import Depends
+from fastapi.security import OAuth2PasswordRequestForm
+from loguru import logger
+from models import Token, UserModel, UserSignUpModel
+from services.user import SignUpUserService, UserServiceException, auth_user
 
 router = APIRouter()
 
@@ -17,3 +20,10 @@ async def sign_up(user: UserSignUpModel):
     except UserServiceException as ex:
         raise HTTPException(status_code=404, detail=ex.get_message())
     return res
+
+
+@router.post('/auth/token', response_model=Token)
+async def token(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = await auth_user(form_data.username, form_data.password)
+    logger.info(user)
+    return {}
