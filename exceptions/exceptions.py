@@ -1,4 +1,4 @@
-class BaseException(Exception):
+class AppException(Exception):
     """
     Базовое исключение
     """
