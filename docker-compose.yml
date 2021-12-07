@@ -5,7 +5,7 @@ volumes:
     test_mongo_data:
 
 services: 
-    rabbitmq:
+    test_mongo_db:
         image: mongo
         ports: 
             - 27017:27017
