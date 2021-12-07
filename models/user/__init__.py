@@ -1,1 +1,1 @@
-from .user import UserModel, UserSignUpModel
+from .user import User, UserModel, UserSignUpModel
