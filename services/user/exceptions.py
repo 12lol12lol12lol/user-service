@@ -1,5 +1,5 @@
-from exceptions import BaseException
+from exceptions import AppException
 
 
-class UserServiceException(BaseException):
+class UserServiceException(AppException):
     exception_type = "user_service_exception"

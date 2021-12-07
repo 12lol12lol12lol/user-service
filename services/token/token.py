@@ -7,7 +7,7 @@ from jose import jwt
 from jose.exceptions import JWTError
 from loguru import logger
 from models import TokenData, User
-from repository.user import get_user
+from repository.user import UserRepo
 from settings import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -54,7 +54,7 @@ async def check_user_token(token: str = Depends(oauth2_scheme)) -> User:
         token_data = TokenData(username=username)
     except JWTError as ex:
         raise credentials_exception from ex
-    user = await get_user(username=token_data.username)
+    user = await UserRepo.get_user(username=token_data.username)
     if user is None:
         raise credentials_exception
     return user
