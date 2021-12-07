@@ -1,7 +1,6 @@
 
 from datetime import timedelta
 
-from fastapi import params
 from pydantic import BaseModel, root_validator
 
 SECRET_KEY_LENGTH = 16
