@@ -4,10 +4,10 @@ from typing import Optional
 from bson import ObjectId
 from pydantic import BaseModel, EmailStr, Field
 
-from models import PyObjectId
+from .pyobject_id import PyObjectId
 
 
-class UserModel(BaseModel): # pylint: disable=too-few-public-methods
+class UserModel(BaseModel):  # pylint: disable=too-few-public-methods
     """
     User model for database
     """
@@ -19,7 +19,7 @@ class UserModel(BaseModel): # pylint: disable=too-few-public-methods
     last_login: Optional[datetime] = Field(default=datetime.now())
     is_admin: bool = Field(default=False)
 
-    class Config: # pylint: disable=too-few-public-methods
+    class Config:  # pylint: disable=too-few-public-methods
         allow_population_by_field_name = True
         arbitrary_types_allowed = True
         json_encoders = {ObjectId: str}
@@ -42,3 +42,9 @@ class UserSignUpModel(BaseModel):
     username: str = Field(..., min_length=3, max_length=100)
     email: EmailStr = Field(...)
     password: str = Field(..., min_length=6)
+
+
+class User(BaseModel):
+    username: str
+    email: EmailStr
+    is_admin: bool

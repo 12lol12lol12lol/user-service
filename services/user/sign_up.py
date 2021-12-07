@@ -3,7 +3,7 @@ from typing import Union
 
 from loguru import logger
 from models import UserModel, UserSignUpModel
-from motor.motor_asyncio import AsyncIOMotorClient
+from repository.user import UserRepo
 
 from .exceptions import UserServiceException
 from .hash import get_hashed_password
@@ -20,14 +20,14 @@ class SignUpUserService:
     else return (False, 'error message')
     """
     user: UserSignUpModel
-    db: AsyncIOMotorClient
+    user_repo: UserRepo = UserRepo()
 
     async def run(self) -> Union[UserModel, UserServiceException]:
         # Check for None
         if self.user is None:
             raise UserServiceException('user is None')
         # Check unique username
-        user = await self.db['users'].find_one({'username': self.user.username})
+        user = await self.user_repo.get_user(self.user.username)
         if user is not None:
             raise UserServiceException(
                 f'{self.user.username} user already exists')
@@ -39,7 +39,4 @@ class SignUpUserService:
         user_model = UserModel(
             **self.user.dict()
         )
-        insert_result = await self.db['users'].insert_one(user_model.dict())
-        logger.info(f'created user username={user_model.username} with id={insert_result.inserted_id} ')
-        # return result from db
-        return await self.db['users'].find_one({'_id': insert_result.inserted_id})
+        return await self.user_repo.create_user(user_model)

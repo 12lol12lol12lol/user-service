@@ -1,1 +1,1 @@
-from .exceptions import BaseException
+from .exceptions import AppException
