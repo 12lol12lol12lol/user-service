@@ -4,5 +4,5 @@ from settings import settings
 
 # Initialize database connection
 client = motor.motor_asyncio.AsyncIOMotorClient(settings.MONGODB_URL)
-db = client.college
+db = client.app
 logger.info('Database initialization completed!')
